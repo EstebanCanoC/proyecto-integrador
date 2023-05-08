@@ -7,11 +7,13 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@MappedSuperclass
 public abstract class Usuario {
     @Id
     private Integer cedula;
@@ -27,5 +29,4 @@ public abstract class Usuario {
     private String direccionResidencia;
     @Column (name = "ciudad")
     private String ciudad;
-
 }
