@@ -58,4 +58,11 @@ public class EmpleadoService {
         this.empleadoRepository.delete(empleadoAEliminar.get());
         return empleadoAEliminar.get();
     }
+    public Empleado obtenerEmpleado(Integer cedula){
+        Optional<Empleado> empleadoAObtener = this.empleadoRepository.findById(cedula);
+        if(empleadoAObtener.isEmpty()){
+            throw new ApiRequestException("Empleado no registrado con este numero de cedula");
+        }
+        return empleadoAObtener.get();
+    }
 }
