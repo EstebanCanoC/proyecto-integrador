@@ -32,4 +32,10 @@ public class ClienteController {
         Cliente clienteEliminado = clienteService.borrarCliente(cedula);
         return ResponseEntity.ok(clienteEliminado);
     }
+
+    @GetMapping("/{cedula}")
+    public ResponseEntity<Cliente> obtenerCliente(@PathVariable("cedula") Integer cedula) throws ApiRequestException{
+        Cliente clienteObtenido = clienteService.obtenerCliente(cedula);
+        return ResponseEntity.ok(clienteObtenido);
+    }
 }
