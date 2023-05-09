@@ -50,4 +50,12 @@ public class EmpleadoService {
             throw new ApiRequestException("NO esta registrado ningun empleado con la cedula: " + empleado.getCedula());
         }
     }
+    public Empleado borrarEmpleado(Integer cedula){
+        Optional<Empleado> empleadoAEliminar = this.empleadoRepository.findById(cedula);
+        if(empleadoAEliminar.isEmpty()){
+            throw new ApiRequestException("Empleado no encontrado para su eliminacion");
+        }
+        this.empleadoRepository.delete(empleadoAEliminar.get());
+        return empleadoAEliminar.get();
+    }
 }
