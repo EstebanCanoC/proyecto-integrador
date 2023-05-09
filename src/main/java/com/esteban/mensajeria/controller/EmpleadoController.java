@@ -25,4 +25,9 @@ public class EmpleadoController {
         Empleado empleadoActualizado = empleadoService.actualizarEmpleado(empleadoDTO);
         return ResponseEntity.ok(empleadoActualizado);
     }
+    @DeleteMapping("/{cedula}")
+    public ResponseEntity<Empleado> borrarEmpleado(@PathVariable("cedula") Integer cedula) {
+        Empleado empleadoEliminado = empleadoService.borrarEmpleado(cedula);
+        return ResponseEntity.ok(empleadoEliminado);
+    }
 }
