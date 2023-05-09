@@ -1,6 +1,7 @@
 package com.esteban.mensajeria.controller;
 
 import com.esteban.mensajeria.dto.ClienteDTO;
+import com.esteban.mensajeria.exception.ApiRequestException;
 import com.esteban.mensajeria.model.Cliente;
 import com.esteban.mensajeria.service.ClienteService;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{cedula}")
-    public ResponseEntity<Cliente> borrarCliente(@PathVariable("cedula") Integer cedula) throws ApiRequestException{
+    public ResponseEntity<Cliente> borrarCliente(@PathVariable("cedula") Integer cedula) throws ApiRequestException {
         Cliente clienteEliminado = clienteService.borrarCliente(cedula);
         return ResponseEntity.ok(clienteEliminado);
     }

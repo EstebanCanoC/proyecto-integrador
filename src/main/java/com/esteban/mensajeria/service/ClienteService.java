@@ -55,4 +55,11 @@ public class ClienteService {
         return clienteAEliminar.get();
     }
 
+    public Cliente obtenerCliente(Integer cedula){
+        Optional<Cliente> clienteAOptener = this.clienteRepository.findById(cedula);
+        if(clienteAOptener.isEmpty()){
+            throw new ApiRequestException("Cliente no registrado con este numero de cedula");
+        }
+        return clienteAOptener.get();
+    }
 }
