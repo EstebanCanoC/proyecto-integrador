@@ -25,4 +25,10 @@ public class ClienteController {
         Cliente clienteActualizado = clienteService.actualizarCliente(clienteDTO);
         return ResponseEntity.ok(clienteActualizado);
     }
+
+    @DeleteMapping("/{cedula}")
+    public ResponseEntity<Cliente> borrarCliente(@PathVariable("cedula") Integer cedula) throws ApiRequestException{
+        Cliente clienteEliminado = clienteService.borrarCliente(cedula);
+        return ResponseEntity.ok(clienteEliminado);
+    }
 }
