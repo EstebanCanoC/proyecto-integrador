@@ -3,13 +3,11 @@ package com.esteban.mensajeria.controller;
 import com.esteban.mensajeria.dto.ClienteDTO;
 import com.esteban.mensajeria.model.Cliente;
 import com.esteban.mensajeria.service.ClienteService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/")
+@RequestMapping("api/v1/clientes")
 public class ClienteController {
     private final ClienteService clienteService;
 
@@ -17,9 +15,14 @@ public class ClienteController {
         this.clienteService = clienteService;
     }
 
-    @PostMapping("/clientes")
+    @PostMapping
     public Cliente crearCliente(@RequestBody ClienteDTO clienteDTO){
         return this.clienteService.crearCliente(clienteDTO);
     }
 
+    @PutMapping("/{cedula}")
+    public ResponseEntity<Cliente> actualizarCliente(@PathVariable("cedula") Integer cedula, @RequestBody ClienteDTO clienteDTO){
+        Cliente clienteActualizado = clienteService.actualizarCliente(clienteDTO);
+        return ResponseEntity.ok(clienteActualizado);
+    }
 }
