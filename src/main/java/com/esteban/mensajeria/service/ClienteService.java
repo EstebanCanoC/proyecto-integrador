@@ -46,6 +46,13 @@ public class ClienteService {
         }
     }
 
-
+    public Cliente borrarCliente(Integer cedula){
+        Optional<Cliente> clienteAEliminar = this.clienteRepository.findById(cedula);
+        if (clienteAEliminar.isEmpty()){
+            throw new ApiRequestException("Cliente no encontrado para su eliminacion");
+        }
+        this.clienteRepository.deleteById(cedula);
+        return clienteAEliminar.get();
+    }
 
 }
