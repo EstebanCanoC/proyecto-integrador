@@ -1,10 +1,13 @@
 package com.esteban.mensajeria.service;
 
 import com.esteban.mensajeria.dto.EmpleadoDTO;
+import com.esteban.mensajeria.exception.ApiRequestException;
 import com.esteban.mensajeria.mapper.EmpleadoMapper;
 import com.esteban.mensajeria.model.Empleado;
 import com.esteban.mensajeria.repository.EmpleadoRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class EmpleadoService {
@@ -21,5 +24,30 @@ public class EmpleadoService {
     public Empleado crearEmpleado(EmpleadoDTO empleadoDTO){
         Empleado empleado = empleadoMapper.map(empleadoDTO);
         return this.empleadoRepository.save(empleado);
+    }
+
+    public Empleado actualizarEmpleado(EmpleadoDTO empleadoDTO) throws ApiRequestException {
+
+        Empleado empleado = empleadoMapper.map(empleadoDTO);
+
+        if(empleado.getCedula() == null){
+            throw new ApiRequestException("La cedula del empleado no puede ser nula");
+        }
+        Optional<Empleado> dataEmpleado = empleadoRepository.findById(empleado.getCedula());
+        if(dataEmpleado.isPresent()){
+            Empleado empleadoExistente = dataEmpleado.get();
+            empleadoExistente.setCedula(empleado.getCedula());
+            empleadoExistente.setNombre(empleado.getNombre());
+            empleadoExistente.setApellido(empleado.getApellido());
+            empleadoExistente.setCelular(empleado.getCelular());
+            empleadoExistente.setCorreoElectronico(empleado.getCorreoElectronico());
+            empleadoExistente.setDireccionResidencia(empleado.getDireccionResidencia());
+            empleadoExistente.setCiudad(empleado.getCiudad());
+            empleadoExistente.setRh(empleado.getRh());
+            empleadoExistente.setCargo(empleado.getCargo());
+            return empleadoRepository.save(empleadoExistente);
+        }else{
+            throw new ApiRequestException("NO esta registrado ningun empleado con la cedula: " + empleado.getCedula());
+        }
     }
 }
