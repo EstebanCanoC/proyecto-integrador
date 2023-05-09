@@ -1,10 +1,13 @@
 package com.esteban.mensajeria.service;
 
 import com.esteban.mensajeria.dto.ClienteDTO;
+import com.esteban.mensajeria.exception.ApiRequestException;
 import com.esteban.mensajeria.mapper.ClienteMapper;
 import com.esteban.mensajeria.model.Cliente;
 import com.esteban.mensajeria.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -21,4 +24,26 @@ public class ClienteService {
         Cliente cliente = clienteMapper.map(clienteDTO);
         return this.clienteRepository.save(cliente);
     }
+    public Cliente actualizarCliente(ClienteDTO clienteDTO) throws ApiRequestException{
+        Cliente cliente = clienteMapper.map(clienteDTO);
+
+        if(cliente.getCedula() == null){
+            throw new ApiRequestException("La cedula del cliente no puede ser nula");
+        }
+        Optional<Cliente> optionalCliente = clienteRepository.findById(cliente.getCedula());
+        if(optionalCliente.isPresent()){
+            Cliente clienteExistente = optionalCliente.get();
+            clienteExistente.setCedula(cliente.getCedula());
+            clienteExistente.setNombre(cliente.getNombre());
+            clienteExistente.setApellido(cliente.getApellido());
+            clienteExistente.setCelular(cliente.getCelular());
+            clienteExistente.setCorreoElectronico(cliente.getCorreoElectronico());
+            clienteExistente.setDireccionResidencia(cliente.getDireccionResidencia());
+            clienteExistente.setCiudad(cliente.getCiudad());
+            return clienteRepository.save(clienteExistente);
+        }else {
+            throw new ApiRequestException("NO esta registrado ningun cliente con la cedula: " + cliente.getCedula());
+        }
+    }
+
 }
