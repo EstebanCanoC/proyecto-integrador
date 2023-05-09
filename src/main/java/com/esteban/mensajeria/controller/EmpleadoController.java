@@ -30,4 +30,9 @@ public class EmpleadoController {
         Empleado empleadoEliminado = empleadoService.borrarEmpleado(cedula);
         return ResponseEntity.ok(empleadoEliminado);
     }
+    @GetMapping("/{cedula}")
+    public ResponseEntity<Empleado> obtenerEmpleado(@PathVariable("cedula") Integer cedula) {
+        Empleado empleadoEncontrado = empleadoService.obtenerEmpleado(cedula);
+        return ResponseEntity.ok(empleadoEncontrado);
+    }
 }
