@@ -1,8 +1,10 @@
 package com.esteban.mensajeria.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class ClienteDTO {
     private Integer cedula;
     private String nombre;

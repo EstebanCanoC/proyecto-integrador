@@ -48,7 +48,7 @@ public class Envio {
     private int peso;
 
     @Column(name = "estado_envio")
-    private String estadoEnvio;
+    private EstadoEnvio estadoEnvio;
 
     @ManyToOne
     @JoinColumn(name = "cedula_empleado", referencedColumnName = "cedula")

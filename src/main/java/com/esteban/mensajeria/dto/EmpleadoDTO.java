@@ -1,9 +1,12 @@
 package com.esteban.mensajeria.dto;
 
 import com.esteban.mensajeria.model.TipoEmpleado;
-import lombok.Data;
 
-@Data
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class EmpleadoDTO {
     private Integer cedula;
     private String nombre;
