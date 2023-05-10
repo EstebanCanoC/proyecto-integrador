@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ActualizarEstadoEnvioDTO {
+public class EstadoRespuestaDTO {
     private String numeroGuia;
-    private String estadoEnvio;
-    private Integer cedulaEmpleado;
+    private String ultimoEstado;
+
 }
