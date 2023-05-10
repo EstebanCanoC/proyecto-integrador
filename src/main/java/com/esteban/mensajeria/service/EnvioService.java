@@ -2,6 +2,7 @@ package com.esteban.mensajeria.service;
 
 import com.esteban.mensajeria.dto.CrearEnvioDTO;
 import com.esteban.mensajeria.dto.CrearEnvioRespuestaDTO;
+import com.esteban.mensajeria.dto.EnvioDTO;
 import com.esteban.mensajeria.model.Cliente;
 import com.esteban.mensajeria.model.Envio;
 import com.esteban.mensajeria.model.EstadoEnvio;
@@ -9,6 +10,7 @@ import com.esteban.mensajeria.model.Paquete;
 import com.esteban.mensajeria.repository.EnvioRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -57,6 +59,29 @@ public class EnvioService {
 
         return respuestaDTO;
     }
+
+    public EnvioDTO obtenerEnvioPorNumeroGuia(String numeroGuia) {
+        Optional<Envio> envioOptional = envioRepository.findById(numeroGuia);
+        if (envioOptional.isPresent()) {
+            Envio envio = envioOptional.get();
+            EnvioDTO envioDTO = new EnvioDTO();
+            envioDTO.setCedulaCliente(envio.getCliente().getCedula());
+            envioDTO.setNombreRemitente(envio.getCliente().getNombre());
+            envioDTO.setCiudadOrigen(envio.getCiudadOrigen());
+            envioDTO.setCiudadDestino(envio.getCiudadDestino());
+            envioDTO.setDireccionDestino(envio.getDireccionDestino());
+            envioDTO.setNombreRecibe(envio.getNombreRecibe());
+            envioDTO.setCelular(envio.getCelular());
+            envioDTO.setValorDeclaradoPaquete(envio.getValorDeclaradoPaquete());
+            envioDTO.setPeso(envio.getPeso());
+            envioDTO.setValorEnvio(envio.getValorEnvio());
+            envioDTO.setEstadoEnvio(envio.getEstadoEnvio().toString());
+            return envioDTO;
+        }
+        return null;
+    }
+
+
     private String generarNumGuia(){
         UUID uuid = UUID.randomUUID();
         String numGuia = uuid.toString().replace("-", "").substring(0, 10);
