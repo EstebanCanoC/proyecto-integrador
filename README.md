@@ -99,6 +99,8 @@ Para crear un envio se utiliza el metodo Post
 }
 ```
 
+![SQL](https://github.com/EstebanCanoC/proyecto-integrador/assets/72243661/717c4e6c-f45f-4355-9afd-948aa6c6b0f6)
+
 # obtenerEnvioPorNumeroGuia( );
 
 Este método recibe un número de guía y utiliza el objeto EnvioRepository para buscar en la base de datos el envío correspondiente a ese número de guía. Si encuentra el envío, devuelve un objeto EnvioDTO que contiene información sobre el envío, incluyendo la información del cliente, la dirección de entrega, el peso del paquete y su valor declarado, así como el estado actual del envío.
