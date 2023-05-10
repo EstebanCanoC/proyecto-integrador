@@ -84,6 +84,21 @@ La clase EnvioService tiene dos métodos públicos:
 
 Este método recibe un objeto CrearEnvioDTO, que contiene información sobre el envío a crear, como la información del cliente, el peso del paquete y la dirección de entrega. El método primero utiliza el objeto ClienteService para obtener el cliente correspondiente a la cédula proporcionada en el CrearEnvioDTO. Luego utiliza el objeto PaqueteService para crear un nuevo objeto Paquete con el peso y valor declarado del paquete. Después, calcula el valor del envío basado en el peso y lo almacena junto con la información del envío y el objeto Paquete en la base de datos utilizando el objeto EnvioRepository. Finalmente, devuelve un objeto CrearEnvioRespuestaDTO, que contiene el número de guía del envío creado y su estado.
 
+Para crear un envio se utiliza el metodo Post
+# POST
+```json
+{
+  "cedulaCliente": "1128450373",
+    "ciudadOrigen": "Cali",
+    "ciudadDestino": "Medellin",
+    "direccionDestino": "Calle 45 #67 - 89",
+    "nombreRecibe": "Juan Casas",
+    "celular": "3117348990",
+    "valorDeclaradoPaquete": 12000,
+    "peso": 1
+}
+```
+
 # obtenerEnvioPorNumeroGuia( );
 
 Este método recibe un número de guía y utiliza el objeto EnvioRepository para buscar en la base de datos el envío correspondiente a ese número de guía. Si encuentra el envío, devuelve un objeto EnvioDTO que contiene información sobre el envío, incluyendo la información del cliente, la dirección de entrega, el peso del paquete y su valor declarado, así como el estado actual del envío.
