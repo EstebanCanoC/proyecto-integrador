@@ -31,7 +31,6 @@ public class EnvioService {
             //throw new ClienteNotFoundException("El cliente con cedula " + crearEnvioDTO.getCedulaCliente() + " no está registrado");
         }
         Paquete paquete = paqueteService.crearPaquete(crearEnvioDTO.getPeso(), crearEnvioDTO.getValorDeclaradoPaquete());
-
         double valorEnvio = generarValorEnvio(crearEnvioDTO.getPeso());
         String numGuia = generarNumGuia();
 
@@ -47,6 +46,7 @@ public class EnvioService {
         envio.setPeso(crearEnvioDTO.getPeso());
         envio.setValorEnvio(valorEnvio);
         envio.setEstadoEnvio(EstadoEnvio.RECIBIDO);
+        envio.setPaquete(paquete);
         envio.setEmpleado(null);
 
         envioRepository.save(envio);
