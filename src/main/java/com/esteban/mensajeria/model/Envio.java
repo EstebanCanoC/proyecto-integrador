@@ -22,10 +22,6 @@ public class Envio {
     @JoinColumn(name = "cedula_cliente", referencedColumnName = "cedula")
     private Cliente cliente;
 
-    @ManyToOne
-    @JoinColumn(name = "id_paquete")
-    private Paquete paquete;
-
     @Column(name = "ciudad_origen")
     private String ciudadOrigen;
 
@@ -47,8 +43,15 @@ public class Envio {
     @Column(name = "peso")
     private int peso;
 
+    @Column(name = "valor_envio")
+    private double valorEnvio;
+
     @Column(name = "estado_envio")
     private EstadoEnvio estadoEnvio;
+
+    @ManyToOne
+    @JoinColumn(name = "id_paquete")
+    private Paquete paquete;
 
     @ManyToOne
     @JoinColumn(name = "cedula_empleado", referencedColumnName = "cedula")
