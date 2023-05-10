@@ -36,3 +36,4 @@ implementa las operaciones CRUD para la entidad Cliente, proporcionando métodos
 implementa las operaciones CRUD para la entidad Empleado, proporcionando métodos para crear, actualizar, eliminar y obtener un empleado por su número de identificación.
 
 PaqueteService implementa la operación de crear un paquete para la entidad Paquete, donde se establece el tipo de paquete (liviano, mediano o grande) en función del peso del paquete, se asigna el peso y el valor declarado del paquete, y se guarda en el repositorio de paquetes. Cabe destacar que este servicio no implementa la operación de eliminar o actualizar un paquete, por lo que no es un servicio CRUD completo para la entidad Paquete.
+
