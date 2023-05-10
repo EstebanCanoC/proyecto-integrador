@@ -8,5 +8,5 @@ import lombok.Setter;
 public class ActualizarEstadoEnvioDTO {
     private String numeroGuia;
     private String estadoEnvio;
-    private String cedulaEmpleado;
+    private Integer cedulaEmpleado;
 }

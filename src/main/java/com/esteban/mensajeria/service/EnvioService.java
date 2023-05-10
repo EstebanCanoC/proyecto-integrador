@@ -1,12 +1,10 @@
 package com.esteban.mensajeria.service;
 
+import com.esteban.mensajeria.dto.ActualizarEstadoEnvioDTO;
 import com.esteban.mensajeria.dto.CrearEnvioDTO;
 import com.esteban.mensajeria.dto.CrearEnvioRespuestaDTO;
 import com.esteban.mensajeria.dto.EnvioDTO;
-import com.esteban.mensajeria.model.Cliente;
-import com.esteban.mensajeria.model.Envio;
-import com.esteban.mensajeria.model.EstadoEnvio;
-import com.esteban.mensajeria.model.Paquete;
+import com.esteban.mensajeria.model.*;
 import com.esteban.mensajeria.repository.EnvioRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +17,14 @@ public class EnvioService {
     private final ClienteService clienteService;
     private final PaqueteService paqueteService;
 
+    private final EmpleadoService empleadoService;
 
-    public EnvioService(EnvioRepository envioRepository, ClienteService clienteService, PaqueteService paqueteService) {
+
+    public EnvioService(EnvioRepository envioRepository, ClienteService clienteService, PaqueteService paqueteService, EmpleadoService empleadoService) {
         this.envioRepository = envioRepository;
         this.clienteService = clienteService;
         this.paqueteService = paqueteService;
+        this.empleadoService = empleadoService;
     }
 
 
@@ -81,7 +82,35 @@ public class EnvioService {
         return null;
     }
 
+    public EnvioDTO actualizarEstadoEnvio(ActualizarEstadoEnvioDTO actualizarEstadoEnvioDTO){
+        Empleado empleado = empleadoService.obtenerEmpleado(actualizarEstadoEnvioDTO.getCedulaEmpleado());
+        if (empleado == null) {
+            //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El empleado con cédula " + actualizarEstadoEnvioDTO.getCedulaEmpleado() + " no existe en nuestra compañía.");
+        }
 
+        TipoEmpleado tipoEmpleado = empleado.getCargo();
+        if (tipoEmpleado != TipoEmpleado.REPARTIDOR && tipoEmpleado != TipoEmpleado.COORDINADOR) {
+            //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El empleado con cédula " + actualizarEstadoEnvioDTO.getCedulaEmpleado() + " no tiene los permisos necesarios para actualizar el estado del envío.");
+        }
+
+        Envio envio = envioRepository.findById(actualizarEstadoEnvioDTO.getNumeroGuia()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El envío con número de guía " + actualizarEstadoEnvioDTO.getNumeroGuia() + " no existe en nuestra base de datos."));
+
+        // Validar si el nuevo estado del envío es válido
+        EstadoEnvio estadoActual = envio.getEstadoEnvio();
+        EstadoEnvio nuevoEstado = EstadoEnvio.valueOf(actualizarEstadoEnvioDTO.getEstadoEnvio());
+        if (estadoActual == EstadoEnvio.RECIBIDO && nuevoEstado != EstadoEnvio.EN_RUTA) {
+            //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El envío con número de guía " + actualizarEstadoEnvioDTO.getNumeroGuia() + " solo puede cambiar su estado de RECIBIDO a EN RUTA.");
+        } else if (estadoActual == EstadoEnvio.EN_RUTA && nuevoEstado != EstadoEnvio.ENTREGADO) {
+           // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El envío con número de guía " + actualizarEstadoEnvioDTO.getNumeroGuia() + " solo puede cambiar su estado de EN RUTA a ENTREGADO.");
+        } else if (estadoActual == EstadoEnvio.ENTREGADO || estadoActual == nuevoEstado) {
+           // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El envío con número de guía " + actualizarEstadoEnvioDTO.getNumeroGuia() + " no puede cambiar su estado de " + estadoActual + " a " + nuevoEstado + ".");
+        }
+
+        envio.setEstadoEnvio(nuevoEstado);
+        envioRepository.save(envio);
+
+
+    }
     private String generarNumGuia(){
         UUID uuid = UUID.randomUUID();
         String numGuia = uuid.toString().replace("-", "").substring(0, 10);
