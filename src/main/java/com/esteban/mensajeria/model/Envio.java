@@ -47,6 +47,7 @@ public class Envio {
     private double valorEnvio;
 
     @Column(name = "estado_envio")
+    @Enumerated(EnumType.STRING)
     private EstadoEnvio estadoEnvio;
 
     @ManyToOne
